@@ -72,7 +72,7 @@ public class CommandClaim implements CommandExecutor {
 		// ClaimManager
 		if (claim != null)
 		{
-			if(type.equals(ClaimType.ADMIN) && !src.hasPermission(PluginInfo.id+"admin"))
+			if(type.equals(ClaimType.ADMIN) && !src.hasPermission(PluginInfo.id+".admin"))
 			{
 				src.sendMessage(Text.of(TextColors.RED,"You do not have permission to run this: "+PluginInfo.id+".admin"));
 			}
@@ -83,6 +83,8 @@ public class CommandClaim implements CommandExecutor {
 			else
 			{
 				CLAIM_MANAGER.addClaim(claim, Cause.source(plugin).build());
+				src.sendMessage(Text.of(TextColors.YELLOW,"Claim Created"));
+				plugin.getLogger().info(src.getName() +" created a claim");
 			}
 			
 		}
