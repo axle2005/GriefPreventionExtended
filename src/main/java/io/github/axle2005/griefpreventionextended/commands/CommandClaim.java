@@ -2,6 +2,7 @@ package io.github.axle2005.griefpreventionextended.commands;
 
 import java.util.UUID;
 
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -53,13 +54,14 @@ public class CommandClaim implements CommandExecutor {
 		if (src instanceof Player) {
 			world = ((Player) src).getWorld();
 			player = ((Player) src).getLocation().getBlockPosition();
-			lesser = new Vector3i(player.getX() - args, 0, player.getZ() - args);
-			greater = new Vector3i(player.getX() + args, 255, player.getZ() + args);
+			lesser = new Vector3i(player.getX() - args, world.getBlockMin().getY(), player.getZ() - args);
+			greater = new Vector3i(player.getX() + args, world.getBlockMax().getY(), player.getZ() + args);
 			owner = ((Player) src).getUniqueId();
 		}
 		final ClaimManager CLAIM_MANAGER = plugin.getGPApi().getClaimManager(world);
 
-		ClaimResult claimResult = Claim.builder().world(world).bounds(lesser, greater)
+		ClaimResult claimResult = Claim.builder().world(world)
+				.bounds(lesser, greater)
 				.owner(owner)
 				.type(type)
 				.requiresClaimBlocks(true)
